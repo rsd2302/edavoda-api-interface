@@ -1,0 +1,1066 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Edavoda API
+  description: Edavoda API Interface
+  version: "1.0.0"
+# the domain of the service
+host: edavoda.com
+# array of all schemes that your API supports
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /auth/login:
+    post:
+      responses:
+        200:
+          description: Результат login
+  /auth/logout:
+    post:
+      responses:
+        200:
+          description: Результат logout
+  /settings:
+    get:
+      summary: Настройки
+      responses:
+        200:
+          description: Массив Настроек
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Settings_item'
+  /categories:
+    get:
+      summary: Категории
+      responses:
+        200:
+          description: Массив Категорий
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+  /category/{id}:
+    get:
+      summary: Возвращает категорию по ID
+      parameters:
+        - name: id
+          in: path
+          description: ID категории
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Категория
+          schema:
+            $ref: '#/definitions/Category'
+  /category/{id}/filters:
+    get:
+      summary: Фильтры
+      parameters:
+        - name: id
+          in: path
+          description: ID поставщика
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Массив фильтров
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category_filter'
+  /brands:
+    get:
+      summary: Бренды
+      responses:
+        200:
+          description: Массив Брендов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Brand'
+  /provisioners:
+    get:
+      summary: Поставщики
+      responses:
+        200:
+          description: Массив Поставщиков
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Provisioner'
+  /provisioner/{id}:
+    get:
+      summary: Просмотр информации о поставщике с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID поставщика
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Поставщик
+          schema:
+            $ref: '#/definitions/Provisioner'
+  /provisioner/{id}/review:
+    get:
+      summary: Просмотр отзывов о поставщике с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID поставщика
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Массив отзывов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Review'
+  /provisioner/{id}/create_complaint:
+    post:
+      summary: Добавление жалобы на поставщика
+      parameters:
+        - name: id
+          in: path
+          description: ID поставщика
+          required: true
+          type: integer
+          format: int64
+        - name: complaint_message
+          in: body
+          description: ИНформация о жалобе на поставщика
+          required: true
+          schema:
+            $ref: '#/definitions/Complaint_message'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Complaint_message'
+  /products:
+    get:
+      summary: Товары
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: Массив Товаров
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+    post:
+      summary: Создание продукта
+      parameters:
+        - name: product
+          in: body
+          description: ИНформация о продукте
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Product'
+  /product/{id}:
+    get:
+      summary: Возвращает продукт по ID
+      parameters:
+        - name: id
+          in: path
+          description: ID продукта
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Продукт
+          schema:
+            $ref: '#/definitions/Product'
+    post:
+      summary: Редактирование продукта
+      parameters:
+        - name: id
+          in: path
+          description: ID продукта
+          required: true
+          type: integer
+          format: int64
+        - name: product
+          in: body
+          description: ИНформация о продукте
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Product'
+  /product/{id}/create_error_message:
+    post:
+      summary: Добавление информации об ошибке
+      parameters:
+        - name: id
+          in: path
+          description: ID поставщика
+          required: true
+          type: integer
+          format: int64
+        - name: error_message
+          in: body
+          description: ИНформация об ошибке
+          required: true
+          schema:
+            $ref: '#/definitions/Error_message'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Error_message'
+  /orders:
+    get:
+      summary: Заказы
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Массив заказов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Settings_item'
+  /orders/count:
+    get:
+      summary: Количество заказов
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Количество заказов
+          schema:
+            type: integer
+  /order/{id}:
+    get:
+      summary: Возвращает заказ по ID
+      parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: order response
+          schema:
+            $ref: '#/definitions/Order'
+    post:
+      summary: Редактирование заказа
+      parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          required: true
+          type: integer
+          format: int64
+        - name: order
+          in: body
+          description: ИНформация о заказе
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
+      responses:
+        200:
+          description: order response
+          schema:
+            $ref: '#/definitions/Order'
+  /articles:
+    get:
+      summary: Список страниц
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Массив страниц
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Article'
+  /article/{id}:
+    get:
+      summary: Возвращает страницу по ID
+      parameters:
+        - name: id
+          in: path
+          description: ID страницы
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: article response
+          schema:
+            $ref: '#/definitions/Article'
+  /faqs:
+    get:
+      summary: Список страниц FAQ
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Массив страниц FAQ
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FAQ_page'
+  /faq/{id}:
+    get:
+      summary: Возвращает страницу по ID
+      parameters:
+        - name: id
+          in: path
+          description: ID страницы FAQ
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: faq page response
+          schema:
+            $ref: '#/definitions/FAQ_page'
+  /news:
+    get:
+      summary: Список новостей
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Массив новостей
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/News_page'
+  /news/{id}:
+    get:
+      summary: Возвращает страницу по ID
+      parameters:
+        - name: id
+          in: path
+          description: ID страницы FAQ
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: news page response
+          schema:
+            $ref: '#/definitions/News_page'
+  /dialogs:
+    get:
+      summary: Диалоги
+      responses:
+        200:
+          description: Массив диалогов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dialog'
+  /dialogs/necessary_product:
+    post:
+      summary: Отправка сообщения всем поставщикам о недостающем товаре
+      parameters:
+        - name: message
+          in: body
+          description: ИНформация о сообщении
+          required: true
+          schema:
+            $ref: '#/definitions/Message'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Message'
+  /dialogs/unread_messages_count:
+    get:
+      summary: Количество всех непрочитанных сообщений
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Количество всех непрочитанных сообщений
+          schema:
+            type: integer
+  /dialogs/{id}:
+    get:
+      summary: Просмотр сообщений в диалоге с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID диалога
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: массив сообщений
+          schema:
+            $ref: '#/definitions/Message'
+    post:
+      summary: Отправка сообщения
+      parameters:
+        - name: id
+          in: path
+          description: ID диалога
+          required: true
+          type: integer
+          format: int64
+        - name: message
+          in: body
+          description: ИНформация о сообщении
+          required: true
+          schema:
+            $ref: '#/definitions/Message'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Message'
+  /dialogs/{id}/unread_messages_count:
+    get:
+      summary: Количество непрочитанных сообщений в диалоге с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID диалога
+          required: true
+          type: integer
+          format: int64
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Количество непрочитанных сообщений в диалоге с ID
+          schema:
+            type: integer
+  /dialogs/create_with_provisioner:
+    post:
+      summary: Отправка сообщения
+      parameters:
+        - name: message
+          in: body
+          description: ИНформация о сообщении
+          required: true
+          schema:
+            $ref: '#/definitions/Message'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Message'
+  /shops:
+    get:
+      summary: Магазины
+      responses:
+        200:
+          description: Массив магазинов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shop'
+  /shop/{id}:
+    get:
+      summary: Просмотр информации о магазине с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID магазина
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Магазин
+          schema:
+            $ref: '#/definitions/Shop'
+  /actions:
+    get:
+      summary: Акции
+      responses:
+        200:
+          description: Массив акций
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Action'
+  /actions/count:
+    get:
+      summary: Акции
+      responses:
+        200:
+          description: Количество акций
+          schema:
+            type: integer
+  /action/{id}:
+    get:
+      summary: Просмотр информации о акции с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID акции
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: акция
+          schema:
+            $ref: '#/definitions/Action'
+    post:
+      summary: Редактирование акции
+      parameters:
+        - name: id
+          in: path
+          description: ID акции
+          required: true
+          type: integer
+          format: int64
+        - name: product
+          in: body
+          description: ИНформация о акции
+          required: true
+          schema:
+            $ref: '#/definitions/Action'
+      responses:
+        200:
+          description: Action response
+          schema:
+            $ref: '#/definitions/Action'
+  /error_messages:
+    get:
+      summary: Ошибки в товарах
+      responses:
+        200:
+          description: Массив магазинов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shop'
+  /error_messages/count:
+    get:
+      summary: Акции
+      responses:
+        200:
+          description: Количество акций
+          schema:
+            type: integer
+  /deliveries:
+    get:
+      summary: Поставки
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Массив поставок
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Delivery'
+  /delivery/{id}:
+    get:
+      summary: Просмотр информации о поставке с ID
+      parameters:
+        - name: id
+          in: path
+          description: ID поставки
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Поставка
+          schema:
+            $ref: '#/definitions/Shop'
+  /deliveries/products:
+    get:
+      summary: Продукты в поставках
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Массив продуктов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+  /profile:
+    get:
+      summary: Профиль пользователя
+      responses:
+        200:
+          description: получение информации
+          schema:
+            $ref: '#/definitions/Profile'
+    post:
+      summary: Редактирование профиля
+      parameters:
+        - name: profile
+          in: body
+          description: ИНформация о профиле
+          required: true
+          schema:
+            $ref: '#/definitions/Profile'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Profile'
+  /statistic:
+    get:
+      summary: Статистика
+      parameters:
+        - name: filter
+          in: query
+          description: tags to filter by
+          required: false
+          type: array
+          collectionFormat: csv
+          items:
+            type: string
+      responses:
+        200:
+          description: Статистика
+          schema:
+            $ref: '#/definitions/Statistic'
+
+definitions:
+  Product:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      article:
+        type: string
+        description: Артикул продукта
+      title:
+        type: string
+        description: Название
+      category_id:
+        type: integer
+        description: ID категории
+      is_in_stop_list:
+        type: integer
+        description: Нахождение в стоп-листе
+      filter_values:
+        type: array
+        items:
+          type: object
+        description: Опции фильтрации
+      description:
+        type: string
+        description: Описание
+      photos:
+        type: array
+        items:
+          type: object
+        description: Фотографии
+  Settings_item:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      key:
+        type: string
+        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
+      value:
+        type: string
+        description: Description of product.
+  Category:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      title:
+        type: string
+        description: Название
+      parent_id:
+        type: integer
+        description: ID категории
+      image:
+        type: string
+        description: Image URL representing the product.
+      filters:
+        type: array
+        items:
+          type: object
+  Category_filter:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      title:
+        type: string
+        description: Название
+  Brand:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      title:
+        type: string
+        description: Название
+      image:
+        type: string
+        description: Image URL representing the product.
+  Article:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата
+      title:
+        type: string
+        description: Название
+      description:
+        type: string
+        description: Описание
+      text:
+        type: string
+        description: Текст
+  FAQ_page:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      title:
+        type: string
+        description: Название
+      text:
+        type: string
+        description: Текст
+  News_page:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата
+      title:
+        type: string
+        description: Название
+      description:
+        type: string
+        description: Описание
+      text:
+        type: string
+        description: Текст
+  Dialog:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+  Action:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      title:
+        type: string
+        description: Название
+      description:
+        type: string
+        description: Описание акции
+  Message:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+      dialog_id:
+        type: integer
+        description: ID диалога
+      message:
+        type: string
+        description: Текст сообщения
+  Shop:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+      phone:
+        type: string
+        description: Телефон
+      address:
+        type: string
+        description: Адрес
+      skype:
+        type: string
+        description: skype
+      email:
+        type: string
+        description: Email
+      text:
+        type: string
+        description: Текст сообщения
+      latitude:
+        type: integer
+        description: Широта карты
+      longitude:
+        type: integer
+        description: Долгота карты
+      zoom:
+        type: integer
+        description: Долгота карты
+      owner_id:
+        type: integer
+        description: ID владельца
+  Error_message:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      sender_id:
+        type: integer
+        description: ID отправителя
+      product_id:
+        type: integer
+        description: ID продукта у которого ошибка
+  Delivery:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+  Delivery_product:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      delivery_id:
+        type: string
+        description: ID сущности доставки
+      product_id:
+        type: string
+        description: ID продукта
+      count:
+        type: string
+        description: Количество
+  Complaint_message:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      sender_id:
+        type: integer
+        description: ID отправителя
+      shop_id:
+        type: integer
+        description: ID магазина
+  Statistic:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+  Provisioner:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      first_name:
+        type: string
+        description: Имя
+      last_name:
+        type: string
+        description: Фамилия
+      phone:
+        type: string
+        description: Телефон
+      email:
+        type: string
+        description: Email
+      password:
+        type: string
+        description: Пароль
+  Review:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      name:
+        type: string
+        description: Имя отправителя
+      sender_id:
+        type: string
+        description: ID отправителя
+      shop_id:
+        type: string
+        description: ID Магазина
+  Order:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+  Order_product:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      delivery_id:
+        type: string
+        description: ID сущности доставки
+      product_id:
+        type: string
+        description: ID продукта
+      count:
+        type: string
+        description: Количество
+  Profile:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      first_name:
+        type: string
+        description: Имя
+      last_name:
+        type: string
+        description: Фамилия
+      phone:
+        type: string
+        description: Телефон
+      email:
+        type: string
+        description: Email
+      password:
+        type: string
+        description: Пароль
+
+#  10. Служба поддержки
+#  11. Жалобы и предложения
+#  16. Команда
+#  16.1 Получение списка работников
+#  16.2 Получение информации о работнике
+#  17. Точки
+#  17.1 Получение списка точек
+#  18. Пополнение баланса
+#  19. Смена плана
+#  20. История платежей
