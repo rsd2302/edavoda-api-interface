@@ -1,0 +1,7 @@
+{
+  "name": "Edavoda API",
+  "description": "",
+  "repository": "https://github.com/rsd2302/edavoda-api-interface",
+  "image": "heroku/nodejs"
+}
+

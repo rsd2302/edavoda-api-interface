@@ -1,0 +1,10 @@
+{
+  "name": "EdavodaAPI",
+  "version": "1.0.0",
+  "description": "",
+  "author": "rodionov000@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "swagger-express-middleware": "^1.0.0-alpha.12"
+  }
+}
