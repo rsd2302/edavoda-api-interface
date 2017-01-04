@@ -28,7 +28,27 @@ paths:
     get:
       summary: Настройки
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Массив Настроек
@@ -40,7 +60,27 @@ paths:
     get:
       summary: Категории
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Массив Категорий
@@ -84,7 +124,27 @@ paths:
     get:
       summary: Бренды
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Массив Брендов
@@ -96,7 +156,27 @@ paths:
     get:
       summary: Поставщики
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Массив Поставщиков
@@ -163,12 +243,33 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: tags to filter by
-          required: false
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
           type: array
-          collectionFormat: csv
           items:
-            type: string
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
         - name: limit
           in: query
           description: maximum number of results to return
@@ -258,12 +359,39 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: tags to filter by
-          required: false
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
           type: array
-          collectionFormat: csv
           items:
-            type: string
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив заказов
@@ -329,12 +457,39 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: tags to filter by
-          required: false
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
           type: array
-          collectionFormat: csv
           items:
-            type: string
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив страниц
@@ -363,12 +518,39 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: tags to filter by
-          required: false
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
           type: array
-          collectionFormat: csv
           items:
-            type: string
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив страниц FAQ
@@ -397,12 +579,39 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: tags to filter by
-          required: false
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
           type: array
-          collectionFormat: csv
           items:
-            type: string
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив новостей
@@ -429,7 +638,27 @@ paths:
     get:
       summary: Диалоги
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Массив диалогов
@@ -455,15 +684,6 @@ paths:
   /dialogs/unread_messages_count:
     get:
       summary: Количество всех непрочитанных сообщений
-      parameters:
-        - name: filter
-          in: query
-          description: tags to filter by
-          required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
       responses:
         200:
           description: Количество всех непрочитанных сообщений
@@ -546,7 +766,41 @@ paths:
     get:
       summary: Магазины
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: filter
+          in: query
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив магазинов
@@ -573,7 +827,41 @@ paths:
     get:
       summary: Акции
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: filter
+          in: query
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив акций
@@ -585,7 +873,27 @@ paths:
     get:
       summary: Акции
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Количество акций
@@ -630,7 +938,27 @@ paths:
     get:
       summary: Ошибки в товарах
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Массив магазинов
@@ -642,7 +970,27 @@ paths:
     get:
       summary: Акции
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: Количество акций
@@ -688,12 +1036,39 @@ paths:
       parameters:
         - name: filter
           in: query
-          description: tags to filter by
-          required: false
+          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
           type: array
-          collectionFormat: csv
           items:
-            type: string
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
       responses:
         200:
           description: Массив продуктов
@@ -705,7 +1080,27 @@ paths:
     get:
       summary: Профиль пользователя
       parameters:
-        $ref: 'includes/common-list-parameters.yaml'
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
       responses:
         200:
           description: получение информации
