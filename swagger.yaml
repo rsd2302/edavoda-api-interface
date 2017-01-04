@@ -12,6 +12,7 @@ schemes:
   - https
 produces:
   - application/json
+
 paths:
   /auth/login:
     post:
@@ -26,6 +27,8 @@ paths:
   /settings:
     get:
       summary: Настройки
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив Настроек
@@ -36,6 +39,8 @@ paths:
   /categories:
     get:
       summary: Категории
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив Категорий
@@ -78,6 +83,8 @@ paths:
   /brands:
     get:
       summary: Бренды
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив Брендов
@@ -88,6 +95,8 @@ paths:
   /provisioners:
     get:
       summary: Поставщики
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив Поставщиков
@@ -419,6 +428,8 @@ paths:
   /dialogs:
     get:
       summary: Диалоги
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив диалогов
@@ -534,6 +545,8 @@ paths:
   /shops:
     get:
       summary: Магазины
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив магазинов
@@ -559,6 +572,8 @@ paths:
   /actions:
     get:
       summary: Акции
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив акций
@@ -569,6 +584,8 @@ paths:
   /actions/count:
     get:
       summary: Акции
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Количество акций
@@ -612,6 +629,8 @@ paths:
   /error_messages:
     get:
       summary: Ошибки в товарах
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Массив магазинов
@@ -622,6 +641,8 @@ paths:
   /error_messages/count:
     get:
       summary: Акции
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: Количество акций
@@ -683,6 +704,8 @@ paths:
   /profile:
     get:
       summary: Профиль пользователя
+      parameters:
+        $ref: 'includes/common-list-parameters.yaml'
       responses:
         200:
           description: получение информации

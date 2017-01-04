@@ -1,0 +1,16 @@
+- name: page
+  in: path
+  description: № cтраницы
+  type: integer
+  format: int64
+  default: 1
+- name: limit
+  in: path
+  description: Лимит
+  type: integer
+  format: int64
+  default: 30
+- name: search
+  in: path
+  description: Поиск по параметрам
+  type: array
