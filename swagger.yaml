@@ -900,6 +900,9 @@ definitions:
       phone:
         type: string
         description: Телефон
+      title:
+        type: string
+        description: Название магазина
       address:
         type: string
         description: Адрес
@@ -911,7 +914,7 @@ definitions:
         description: Email
       text:
         type: string
-        description: Текст сообщения
+        description: Описание магазина
       latitude:
         type: integer
         description: Широта карты
@@ -933,6 +936,9 @@ definitions:
       sender_id:
         type: integer
         description: ID отправителя
+      text:
+        type: string
+        description: Текст сообщения
       product_id:
         type: integer
         description: ID продукта у которого ошибка
