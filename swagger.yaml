@@ -270,12 +270,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив Товаров
@@ -386,12 +380,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив заказов
@@ -484,12 +472,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив страниц
@@ -545,12 +527,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив страниц FAQ
@@ -606,12 +582,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив новостей
@@ -795,12 +765,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив магазинов
@@ -856,12 +820,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив акций
@@ -1063,12 +1021,6 @@ paths:
             type: array
             items:
               type: string
-        - name: limit
-          in: query
-          description: maximum number of results to return
-          required: false
-          type: integer
-          format: int32
       responses:
         200:
           description: Массив продуктов
@@ -1318,6 +1270,9 @@ definitions:
       phone:
         type: string
         description: Телефон
+      title:
+        type: string
+        description: Название магазина
       address:
         type: string
         description: Адрес
@@ -1329,7 +1284,7 @@ definitions:
         description: Email
       text:
         type: string
-        description: Текст сообщения
+        description: Описание магазина
       latitude:
         type: integer
         description: Широта карты
@@ -1351,6 +1306,9 @@ definitions:
       sender_id:
         type: integer
         description: ID отправителя
+      text:
+        type: string
+        description: Текст сообщения
       product_id:
         type: integer
         description: ID продукта у которого ошибка
