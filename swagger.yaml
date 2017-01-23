@@ -14,16 +14,6 @@ produces:
   - application/json
 
 paths:
-  /auth/login:
-    post:
-      responses:
-        200:
-          description: Результат login
-  /auth/logout:
-    post:
-      responses:
-        200:
-          description: Результат logout
   /settings:
     get:
       summary: Настройки
@@ -1097,7 +1087,7 @@ definitions:
       id:
         type: integer
         description: Уникальный ID
-      article:
+      sku:
         type: string
         description: Артикул продукта
       title:
@@ -1106,6 +1096,9 @@ definitions:
       category_id:
         type: integer
         description: ID категории
+      price:
+        type: integer
+        description: Цена
       is_in_stop_list:
         type: integer
         description: Нахождение в стоп-листе
@@ -1357,12 +1350,9 @@ definitions:
       id:
         type: integer
         description: Уникальный ID
-      first_name:
+      title:
         type: string
-        description: Имя
-      last_name:
-        type: string
-        description: Фамилия
+        description: Название организации
       phone:
         type: string
         description: Телефон
