@@ -337,6 +337,16 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Error_message'
+  /price_categories:
+    get:
+      summary: Категории цен
+      responses:
+        200:
+          description: Массив категорий цен
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Price_category'
   /orders:
     get:
       summary: Заказы
