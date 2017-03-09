@@ -1096,9 +1096,9 @@ definitions:
       category_id:
         type: integer
         description: ID категории
-      price:
+      brand_id:
         type: integer
-        description: Цена
+        description: ID бренда
       is_in_stop_list:
         type: integer
         description: Нахождение в стоп-листе
@@ -1115,6 +1115,10 @@ definitions:
         items:
           type: object
         description: Фотографии
+      prices:
+        type: array
+        items:
+          $ref: '#/definitions/Price_item'
   Settings_item:
     type: object
     properties:
@@ -1127,6 +1131,27 @@ definitions:
       value:
         type: string
         description: Description of product.
+  Price_category:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      name:
+        type: string
+        description: Название категория цен
+  Price_item:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      price_category_id:
+        type: integer
+        description: Категория цен
+      price:
+        type: string
+        description: Цена
   Category:
     type: object
     properties:
