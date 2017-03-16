@@ -6,46 +6,56 @@ info:
   description: Edavoda API Interface
   version: "1.0.0"
 # the domain of the service
-host: edavoda.com
+host: edavoda.kz
 # array of all schemes that your API supports
 schemes:
-  - https
+  - http
 produces:
   - application/json
 
 paths:
-  /settings:
-    get:
-      summary: Настройки
+  !/register:
+    post:
+      summary: Регистрация
       parameters:
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
+        - name: данные пользователя
+          in: body
+          schema:
+            $ref: '#/definitions/User_for_authorization'
       responses:
         200:
-          description: Массив Настроек
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Settings_item'
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  !/login:
+    post:
+      summary: Авторизация
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: query
+          type: string
+          description: Email пользователя
+          required: true
+        - name: password
+          in: query
+          type: string
+          description: Пароль
+          required: true
+      responses:
+        200:
+          description: |
+            Сервер вернет следующую структуру:
+            {
+              "token": "NnPgly3zFncYj-yFLC-KUvqEIWV0hg2j",
+              "expired": "2017-03-14T11:15:48+06:00",
+            }
   /categories:
     get:
       summary: Категории
@@ -272,7 +282,7 @@ paths:
       parameters:
         - name: product
           in: body
-          description: ИНформация о продукте
+          description: Информация о продукте
           required: true
           schema:
             $ref: '#/definitions/Product'
@@ -954,52 +964,10 @@ paths:
           description: Количество акций
           schema:
             type: integer
-  /deliveries:
+  !/orders:
     get:
-      summary: Поставки
+      summary: Заказы
       parameters:
-        - name: filter
-          in: query
-          description: tags to filter by
-          required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
-      responses:
-        200:
-          description: Массив поставок
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Delivery'
-  /delivery/{id}:
-    get:
-      summary: Просмотр информации о поставке с ID
-      parameters:
-        - name: id
-          in: path
-          description: ID поставки
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Поставка
-          schema:
-            $ref: '#/definitions/Shop'
-  /deliveries/products:
-    get:
-      summary: Продукты в поставках
-      parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
         - name: page
           in: query
           description: № cтраницы
@@ -1023,36 +991,132 @@ paths:
               type: string
       responses:
         200:
-          description: Массив продуктов
+          description: Массив заказов
           schema:
             type: array
             items:
-              $ref: '#/definitions/Product'
-  /profile:
+              $ref: '#/definitions/Order'
+  !/order/{$id}/change_status:
+    post:
+      summary: Смена статуса заказа
+      parameters:
+        - name: status
+          in: query
+          description: Новый статус
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Успешное изменение
+  !/order/{$id}/change_date:
+    post:
+      summary: Смена даты поставки
+      parameters:
+        - name: status
+          in: query
+          description: Новая дата
+          type: date
+          required: true
+      responses:
+        200:
+          description: Успешное изменение
+  !/order/{$id}/comments:
+    get:
+      summary: Комментарии к заказу
+      parameters:
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: Массив комментариев
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order_comment'
+  !/order/{$id}/new_comment:
+    post:
+      summary: Добавление комментария
+      parameters:
+        - name: comment
+          in: query
+          description: Комментарий
+          type: string
+          required: true
+      responses:
+        200:
+          description: Успешное добавление комментария
+  !/order/{$id}/products:
+    get:
+      summary: Продукты в заказах
+      parameters:
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: Массив связей заказа с продуктом
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Order_product'
+  !/order_product/{$id}/remove:
+    delete:
+      summary: Удаление связи
+      parameters:
+        - name: count
+          in: query
+          description: Новое количество
+          type: date
+          required: true
+      responses:
+        200:
+          description: Успешное удаление
+  !/order_product/{$id}/update_count:
+    post:
+      summary: Удаление связи
+      responses:
+        200:
+          description: Успешное удаление
+  !/profile:
     get:
       summary: Профиль пользователя
-      parameters:
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
       responses:
         200:
           description: получение информации
@@ -1412,48 +1476,188 @@ definitions:
       shop_id:
         type: string
         description: ID Магазина
-  Order:
+  !Order:
     type: object
     properties:
       id:
         type: integer
         description: Уникальный ID
-  Order_product:
+      producer_id:
+        type: integer
+        description: ID поставщика
+      specialization_producer_id:
+        type: integer
+        description: ID подразделения поставщика
+      shop_id:
+        type: integer
+        description: ID магазина
+      specialization_shop_id:
+        type: integer
+        description: ID торговой точки
+      status:
+        type: integer
+        description: Статус заказа в целочисленом виде (Новый, В работе, Выполнен, Отменен)
+      shop_information:
+        type: integer
+        description: Информация о поставщике
+      shop_information:
+        type: integer
+        description: Информация о магазине
+      price:
+        type: integer
+        description: Сумма заказа
+      order date:
+        type: date-time
+        description: Дата заказа
+      date_of_delivery:
+        type: date
+        description: Дата поставки
+  !Order_product:
     type: object
+    description: Товар в заказе
     properties:
       id:
         type: integer
         description: Уникальный ID
-      delivery_id:
+      order_id:
         type: string
-        description: ID сущности доставки
+        description: ID заказа
       product_id:
         type: string
         description: ID продукта
       count:
         type: string
         description: Количество
-  Profile:
+      price:
+        type: integer
+        description: Цена
+  !Order_comment:
+    type: object
+    description: Комментарий к заказу
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      user_name:
+        type: string
+        description: Имя отправителя
+      count:
+        type: string
+        description: Количество
+      price:
+        type: integer
+        description: Цена
+  !Profile:
     type: object
     properties:
       id:
         type: integer
         description: Уникальный ID
-      first_name:
+      image:
         type: string
-        description: Имя
-      last_name:
+        description: Изображение
+      balance:
+        type: integer
+        description: Баланс
+      username:
         type: string
-        description: Фамилия
-      phone:
+        description: Username
+      specializations-producer:
+        type: array
+        description: |
+          Подразделение для поставщика
+          Массив вида:
+          [
+            {
+              'id': 1,
+              'name': 'asd'
+            },
+            {
+              'id': 2,
+              'name': 'asd2'
+            }
+          ]
+      specializations-shop:
+        type: array
+        description: |
+          Подразделение для магазина
+          Массив вида:
+          [
+            {
+              'id': 1,
+              'name': 'asd'
+            },
+            {
+              'id': 2,
+              'name': 'asd2'
+            }
+          ]
+      position_id:
+        type: integer
+        description: Должность
+      iin:
         type: string
-        description: Телефон
+        description: ИИН
+      fio:
+        type: string
+        description: ФИО Рукводителя
+      mobile_phone:
+        type: string
+        description: Мобильный телефон
+      work_phone:
+        type: string
+        description: Рабочий телефон
+      comments:
+        type: string
+        description: Комментарий
       email:
         type: string
         description: Email
+      address:
+        type: string
+        description: Адрес
+  !User_for_authorization:
+    type: object
+    properties:
+      role:
+        type: integer
+        description: Роль
+      type:
+        type: integer
+        description: Тип
+      name:
+        type: string
+        description: Наименование
       password:
         type: string
         description: Пароль
+      email:
+        type: string
+        description: Email
+      fio:
+        type: string
+        description: ФИО
+      iin:
+        type: string
+        description: ИИН
+      mobile_phone:
+        type: string
+        description: Мобильный телефон
+      work_phone:
+        type: string
+        description: Рабочий телефон
+      comment:
+        type: string
+        description: Комментарий
+      address:
+        type: string
+        description: Адрес
+      latitude:
+        type: integer
+        description: Широта
+      longitude:
+        type: integer
+        description: Долгота
 
 #  10. Служба поддержки
 #  11. Жалобы и предложения
