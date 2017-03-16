@@ -56,7 +56,7 @@ paths:
               "token": "NnPgly3zFncYj-yFLC-KUvqEIWV0hg2j",
               "expired": "2017-03-14T11:15:48+06:00",
             }
-  /categories:
+  !/categories:
     get:
       summary: Категории
       parameters:
@@ -88,39 +88,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Category'
-  /category/{id}:
-    get:
-      summary: Возвращает категорию по ID
-      parameters:
-        - name: id
-          in: path
-          description: ID категории
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Категория
-          schema:
-            $ref: '#/definitions/Category'
-  /category/{id}/filters:
-    get:
-      summary: Фильтры
-      parameters:
-        - name: id
-          in: path
-          description: ID поставщика
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Массив фильтров
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Category_filter'
-  /brands:
+  !/brands:
     get:
       summary: Бренды
       parameters:
@@ -237,7 +205,7 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Complaint_message'
-  /products:
+  !/products:
     get:
       summary: Товары
       parameters:
@@ -291,75 +259,9 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Product'
-  /product/{id}:
+  !/favorite_products:
     get:
-      summary: Возвращает продукт по ID
-      parameters:
-        - name: id
-          in: path
-          description: ID продукта
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Продукт
-          schema:
-            $ref: '#/definitions/Product'
-    post:
-      summary: Редактирование продукта
-      parameters:
-        - name: id
-          in: path
-          description: ID продукта
-          required: true
-          type: integer
-          format: int64
-        - name: product
-          in: body
-          description: ИНформация о продукте
-          required: true
-          schema:
-            $ref: '#/definitions/Product'
-      responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Product'
-  /product/{id}/create_error_message:
-    post:
-      summary: Добавление информации об ошибке
-      parameters:
-        - name: id
-          in: path
-          description: ID поставщика
-          required: true
-          type: integer
-          format: int64
-        - name: error_message
-          in: body
-          description: ИНформация об ошибке
-          required: true
-          schema:
-            $ref: '#/definitions/Error_message'
-      responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Error_message'
-  /price_categories:
-    get:
-      summary: Категории цен
-      responses:
-        200:
-          description: Массив категорий цен
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Price_category'
-  /orders:
-    get:
-      summary: Заказы
+      summary: Товары
       parameters:
         - name: filter
           in: query
@@ -392,63 +294,107 @@ paths:
               type: string
       responses:
         200:
-          description: Массив заказов
+          description: Массив Товаров
           schema:
             type: array
             items:
-              $ref: '#/definitions/Settings_item'
-  /orders/count:
-    get:
-      summary: Количество заказов
-      parameters:
-        - name: filter
-          in: query
-          description: tags to filter by
-          required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
+              type: integer
+              description: ID товара
       responses:
         200:
-          description: Количество заказов
+          description: product response
           schema:
-            type: integer
-  /order/{id}:
-    get:
-      summary: Возвращает заказ по ID
-      parameters:
-        - name: id
-          in: path
-          description: ID заказа
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: order response
-          schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/definitions/Product'
     post:
-      summary: Редактирование заказа
+      summary: Добавление продукта в избранное
+      parameters:
+        - name: product_id
+          in: body
+          description: ID продукта
+          type: integer
+          required: true
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Product'
+    delete:
+      summary: Удаление продукта из избранного
+      parameters:
+        - name: product_id
+          in: body
+          description: ID продукта
+          type: integer
+          required: true
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Product'
+  !/product/{id}:
+    post:
+      summary: Редактирование продукта
       parameters:
         - name: id
           in: path
-          description: ID заказа
+          description: ID продукта
           required: true
           type: integer
           format: int64
-        - name: order
+        - name: product
           in: body
-          description: ИНформация о заказе
+          description: ИНформация о продукте
           required: true
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/definitions/Product'
       responses:
         200:
-          description: order response
+          description: product response
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/definitions/Product'
+  !/product/{id}/create_error_message:
+    post:
+      summary: Добавление информации об ошибке
+      parameters:
+        - name: id
+          in: path
+          description: ID поставщика
+          required: true
+          type: integer
+          format: int64
+        - name: error_message
+          in: body
+          description: ИНформация об ошибке
+          required: true
+          schema:
+            $ref: '#/definitions/Error_message'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Error_message'
+  !/product_error_message/{id}: 
+    delete:
+      summary: Удаление сообщения
+      parameters:
+        - name: id
+          in: query
+          description: ID сообщения
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Успешное удаление
+  /price_categories:
+    get:
+      summary: Категории цен
+      responses:
+        200:
+          description: Массив категорий цен
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Price_category'
   /articles:
     get:
       summary: Список страниц
@@ -614,7 +560,7 @@ paths:
           description: news page response
           schema:
             $ref: '#/definitions/News_page'
-  /dialogs:
+  !/dialogs:
     get:
       summary: Диалоги
       parameters:
@@ -797,18 +743,10 @@ paths:
           description: Магазин
           schema:
             $ref: '#/definitions/Shop'
-  /actions:
+  !/actions:
     get:
       summary: Акции
       parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
         - name: page
           in: query
           description: № cтраницы
@@ -837,6 +775,20 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Action'
+    post:
+      summary: Создание акции
+      parameters:
+        - name: action
+          in: body
+          description: ИНформация об акции
+          required: true
+          schema:
+            $ref: '#/definitions/Action'
+      responses:
+        200:
+          description: product response
+          schema:
+            $ref: '#/definitions/Action'
   /actions/count:
     get:
       summary: Акции
@@ -867,21 +819,7 @@ paths:
           description: Количество акций
           schema:
             type: integer
-  /action/{id}:
-    get:
-      summary: Просмотр информации о акции с ID
-      parameters:
-        - name: id
-          in: path
-          description: ID акции
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: акция
-          schema:
-            $ref: '#/definitions/Action'
+  !/action/{id}:
     post:
       summary: Редактирование акции
       parameters:
@@ -891,7 +829,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: product
+        - name: action
           in: body
           description: ИНформация о акции
           required: true
@@ -996,6 +934,40 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Order'
+    post:
+      summary: Добавление заказа
+      parameters:
+        - name: delivery_type_id
+          in: query
+          description: Тип доставки
+          type: integer
+          required: true
+        - name: pay_type_id
+          in: query
+          description: Способ оплаты
+          type: integer
+          required: true
+        - name: specialization_shop_id
+          in: query
+          description: Точка магазина
+          type: integer
+          required: true
+        - name: products
+          in: query
+          description: Продукты заказа
+          type: array
+          type: array
+          items:
+            $ref: '#/definitions/Order_product'
+          required: true
+      responses:
+        200:
+          description: Успешное добавление
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
   !/order/{$id}/change_status:
     post:
       summary: Смена статуса заказа
@@ -1064,46 +1036,36 @@ paths:
       responses:
         200:
           description: Успешное добавление комментария
-  !/order/{$id}/products:
-    get:
-      summary: Продукты в заказах
+  !/order_product/{$id}/add:
+    post:
+      summary: Добавление товара
       parameters:
-        - name: page
-          in: query
-          description: № cтраницы
+        - name: id
+          in: path
+          description: ID товара
           type: integer
-          format: int64
-          default: 1
           required: true
-        - name: limit
-          in: query
-          description: Лимит
+        - name: count
+          in: path
+          description: Количество товара
           type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
+          required: true
       responses:
         200:
-          description: Массив связей заказа с продуктом
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Order_product'
+          description: Успешное добавление
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
   !/order_product/{$id}/remove:
     delete:
       summary: Удаление связи
       parameters:
-        - name: count
+        - name: id
           in: query
-          description: Новое количество
-          type: date
+          description: ID связи
+          type: integer
           required: true
       responses:
         200:
@@ -1153,9 +1115,32 @@ paths:
           description: Статистика
           schema:
             $ref: '#/definitions/Statistic'
+  !/managers:
+    get:
+      summary: Список сотрудников
+      responses:
+        200:
+          description: получение информации
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Profile'
+  !/managers/{$id}:
+    delete:
+      summary: Удаление сотрудника
+      parameters:
+        - name: manager_id
+          in: query
+          description: ID сотрудника
+          type: date
+          required: true
+      responses:
+        200:
+          description: Успешное удаление
+
 
 definitions:
-  Product:
+  !Product:
     type: object
     properties:
       id:
@@ -1170,29 +1155,64 @@ definitions:
       category_id:
         type: integer
         description: ID категории
+      provisioner_id:
+        type: integer
+        description: ID поставщика
+      specialization_producer_id:
+        type: integer
+        description: ID подразделения поставщика
       brand_id:
         type: integer
         description: ID бренда
       is_in_stop_list:
         type: integer
         description: Нахождение в стоп-листе
-      filter_values:
+      attributes:
         type: array
+        description: Атрибуты
         items:
-          type: object
-        description: Опции фильтрации
+          $ref: '#/definitions/Product_attribute'
       description:
         type: string
         description: Описание
       photos:
         type: array
-        items:
-          type: object
         description: Фотографии
+        items:
+          type: string
       prices:
         type: array
         items:
           $ref: '#/definitions/Price_item'
+  !Product_attribute_value:
+    type: object
+    description: Атрибут товара
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      product_attribute_type_id:
+        type: string
+        description: ID атрибута
+      product_id:
+        type: string
+        description: ID продукта
+      value:
+        type: string
+        description: Значение атрибута
+  !Product_attribute_type:
+    type: object
+    description: Тип атрибута
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      title:
+        type: string
+        description: Название
+      unit:
+        type: string
+        description: Еденицы
   Settings_item:
     type: object
     properties:
@@ -1226,7 +1246,7 @@ definitions:
       price:
         type: string
         description: Цена
-  Category:
+  !Category:
     type: object
     properties:
       id:
@@ -1240,12 +1260,15 @@ definitions:
         description: ID категории
       image:
         type: string
-        description: Image URL representing the product.
+        description: Изображение категории
       filters:
         type: array
+        description: Необходимо проработать
         items:
-          type: object
-  Category_filter:
+            type: array
+            items:
+              $ref: '#/definitions/Category_filter'
+  !Category_filter:
     type: object
     properties:
       id:
@@ -1253,8 +1276,11 @@ definitions:
         description: Уникальный ID
       title:
         type: string
-        description: Название
-  Brand:
+        description: Описание фильтра
+      attribute_id:
+        type: string
+        description: ID атрибута для фильтрации
+  !Brand:
     type: object
     properties:
       id:
@@ -1314,7 +1340,7 @@ definitions:
       text:
         type: string
         description: Текст
-  Dialog:
+  !Dialog:
     type: object
     properties:
       id:
@@ -1323,19 +1349,7 @@ definitions:
       created_at:
         type: integer
         description: Дата создания
-  Action:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      title:
-        type: string
-        description: Название
-      description:
-        type: string
-        description: Описание акции
-  Message:
+  !Message:
     type: object
     properties:
       id:
@@ -1347,9 +1361,60 @@ definitions:
       dialog_id:
         type: integer
         description: ID диалога
+      author_id:
+        type: integer
+        description: ID автора
       message:
         type: string
         description: Текст сообщения
+  !Action:
+    type: object
+    properties:
+      type:
+        type: integer
+        description: Тип
+      producer_id:
+        type: integer
+        description: Поставщик
+      name:
+        type: integer
+        description: Наименование
+      description:
+        type: integer
+        description: Описание
+      start_time:
+        type: integer
+        description: Время начала
+      end_time:
+        type: integer
+        description: Время конца
+      product_ids:
+        type: array
+        description: Массив продуктов участвующих в акции
+        items:
+          type: integer
+          description: ID продукта
+      category_ids:
+        type: array
+        description: Массив категорий
+        items:
+          type: integer
+          description: ID категории
+      discount:
+        type: integer
+        description: Скидка
+      discount_type:
+        type: integer
+        description: Тип скидки
+      from_sum:
+        type: integer
+        description: От суммы
+      gift_ids:
+        type: array
+        description: Массив подарочных продуктов
+        items:
+          type: integer
+          description: ID продукта
   Shop:
     type: object
     properties:
@@ -1592,6 +1657,7 @@ definitions:
               'name': 'asd2'
             }
           ]
+  
       position_id:
         type: integer
         description: Должность
