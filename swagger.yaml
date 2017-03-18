@@ -1,4 +1,4 @@
-# this is an example of the Uber API
+  # this is an example of the Uber API
 # as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
@@ -120,7 +120,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Brand'
-  /provisioners:
+  !/provisioners:
     get:
       summary: Поставщики
       parameters:
@@ -151,60 +151,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Provisioner'
-  /provisioner/{id}:
-    get:
-      summary: Просмотр информации о поставщике с ID
-      parameters:
-        - name: id
-          in: path
-          description: ID поставщика
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Поставщик
-          schema:
-            $ref: '#/definitions/Provisioner'
-  /provisioner/{id}/review:
-    get:
-      summary: Просмотр отзывов о поставщике с ID
-      parameters:
-        - name: id
-          in: path
-          description: ID поставщика
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Массив отзывов
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Review'
-  /provisioner/{id}/create_complaint:
-    post:
-      summary: Добавление жалобы на поставщика
-      parameters:
-        - name: id
-          in: path
-          description: ID поставщика
-          required: true
-          type: integer
-          format: int64
-        - name: complaint_message
-          in: body
-          description: ИНформация о жалобе на поставщика
-          required: true
-          schema:
-            $ref: '#/definitions/Complaint_message'
-      responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Complaint_message'
+              $ref: '#/definitions/Specialization_producer'
   !/products:
     get:
       summary: Товары
@@ -385,7 +332,7 @@ paths:
       responses:
         200:
           description: Успешное удаление
-  /price_categories:
+  !/price_categories:
     get:
       summary: Категории цен
       responses:
@@ -395,7 +342,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Price_category'
-  /articles:
+  !/articles:
     get:
       summary: Список страниц
       parameters:
@@ -435,33 +382,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Article'
-  /article/{id}:
+  !/partners:
     get:
-      summary: Возвращает страницу по ID
+      summary: Список партнеров
       parameters:
-        - name: id
-          in: path
-          description: ID страницы
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: article response
-          schema:
-            $ref: '#/definitions/Article'
-  /faqs:
-    get:
-      summary: Список страниц FAQ
-      parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
         - name: page
           in: query
           description: № cтраницы
@@ -485,81 +409,11 @@ paths:
               type: string
       responses:
         200:
-          description: Массив страниц FAQ
+          description: Массив партнеров
           schema:
             type: array
             items:
-              $ref: '#/definitions/FAQ_page'
-  /faq/{id}:
-    get:
-      summary: Возвращает страницу по ID
-      parameters:
-        - name: id
-          in: path
-          description: ID страницы FAQ
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: faq page response
-          schema:
-            $ref: '#/definitions/FAQ_page'
-  /news:
-    get:
-      summary: Список новостей
-      parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-      responses:
-        200:
-          description: Массив новостей
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/News_page'
-  /news/{id}:
-    get:
-      summary: Возвращает страницу по ID
-      parameters:
-        - name: id
-          in: path
-          description: ID страницы FAQ
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: news page response
-          schema:
-            $ref: '#/definitions/News_page'
+              $ref: '#/definitions/Partner'
   !/dialogs:
     get:
       summary: Диалоги
@@ -592,7 +446,17 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Dialog'
-  /dialogs/necessary_product:
+  !/dialog/categories;
+    get:
+      summary: Список категорий диалогов
+      responses:
+        200:
+          description: Массив категорий диалогов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dialog_category
+  !/dialogs/necessary_product:
     post:
       summary: Отправка сообщения всем поставщикам о недостающем товаре
       parameters:
@@ -607,15 +471,7 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Message'
-  /dialogs/unread_messages_count:
-    get:
-      summary: Количество всех непрочитанных сообщений
-      responses:
-        200:
-          description: Количество всех непрочитанных сообщений
-          schema:
-            type: integer
-  /dialogs/{id}:
+  !/dialogs/{id}:
     get:
       summary: Просмотр сообщений в диалоге с ID
       parameters:
@@ -629,7 +485,9 @@ paths:
         200:
           description: массив сообщений
           schema:
-            $ref: '#/definitions/Message'
+            type: array
+            items:
+              $ref: '#/definitions/Message'
     post:
       summary: Отправка сообщения
       parameters:
@@ -650,33 +508,17 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Message'
-  /dialogs/{id}/unread_messages_count:
-    get:
-      summary: Количество непрочитанных сообщений в диалоге с ID
+  !/dialogs/create_with_provisioner/{id}:
+    post:
+      summary: Создание диалога
+      parameters:
       parameters:
         - name: id
           in: path
-          description: ID диалога
+          description: ID поставщика
           required: true
           type: integer
           format: int64
-        - name: filter
-          in: query
-          description: tags to filter by
-          required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
-      responses:
-        200:
-          description: Количество непрочитанных сообщений в диалоге с ID
-          schema:
-            type: integer
-  /dialogs/create_with_provisioner:
-    post:
-      summary: Отправка сообщения
-      parameters:
         - name: message
           in: body
           description: ИНформация о сообщении
@@ -688,7 +530,7 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Message'
-  /shops:
+  !/shops:
     get:
       summary: Магазины
       parameters:
@@ -728,21 +570,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Shop'
-  /shop/{id}:
-    get:
-      summary: Просмотр информации о магазине с ID
-      parameters:
-        - name: id
-          in: path
-          description: ID магазина
-          required: true
-          type: integer
-          format: int64
-      responses:
-        200:
-          description: Магазин
-          schema:
-            $ref: '#/definitions/Shop'
   !/actions:
     get:
       summary: Акции
@@ -789,36 +616,6 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Action'
-  /actions/count:
-    get:
-      summary: Акции
-      parameters:
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-      responses:
-        200:
-          description: Количество акций
-          schema:
-            type: integer
   !/action/{id}:
     post:
       summary: Редактирование акции
@@ -840,68 +637,6 @@ paths:
           description: Action response
           schema:
             $ref: '#/definitions/Action'
-  /error_messages:
-    get:
-      summary: Ошибки в товарах
-      parameters:
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-      responses:
-        200:
-          description: Массив магазинов
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Shop'
-  /error_messages/count:
-    get:
-      summary: Акции
-      parameters:
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-      responses:
-        200:
-          description: Количество акций
-          schema:
-            type: integer
   !/orders:
     get:
       summary: Заказы
@@ -940,6 +675,11 @@ paths:
         - name: delivery_type_id
           in: query
           description: Тип доставки
+          type: integer
+          required: true
+        - name: provisioner_id
+          in: query
+          description: ID поставщика
           type: integer
           required: true
         - name: pay_type_id
@@ -1213,19 +953,7 @@ definitions:
       unit:
         type: string
         description: Еденицы
-  Settings_item:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      key:
-        type: string
-        description: Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles.
-      value:
-        type: string
-        description: Description of product.
-  Price_category:
+  !Price_category:
     type: object
     properties:
       id:
@@ -1233,8 +961,8 @@ definitions:
         description: Уникальный ID
       name:
         type: string
-        description: Название категория цен
-  Price_item:
+        description: Название категории цен
+  !Price_item:
     type: object
     properties:
       id:
@@ -1292,7 +1020,7 @@ definitions:
       image:
         type: string
         description: Image URL representing the product.
-  Article:
+  !Article:
     type: object
     properties:
       id:
@@ -1310,6 +1038,9 @@ definitions:
       text:
         type: string
         description: Текст
+      category_id:
+        type: integer
+        description: ID категории
   FAQ_page:
     type: object
     properties:
@@ -1322,24 +1053,21 @@ definitions:
       text:
         type: string
         description: Текст
-  News_page:
+  !Partner:
     type: object
     properties:
       id:
         type: integer
         description: Уникальный ID
-      created_at:
-        type: integer
-        description: Дата
       title:
         type: string
         description: Название
       description:
         type: string
         description: Описание
-      text:
+      link:
         type: string
-        description: Текст
+        description: Ссылка
   !Dialog:
     type: object
     properties:
@@ -1349,6 +1077,27 @@ definitions:
       created_at:
         type: integer
         description: Дата создания
+      dialog_category_id:
+        type: integer
+        description: Категория диалога
+      name:
+        type: string
+        description: Имя собеседника
+      sub_name:
+        type: string
+        description: Компания собеседника
+  !Dialog_category:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+      name:
+        type: string
+        description: Название категории
   !Message:
     type: object
     properties:
@@ -1364,6 +1113,9 @@ definitions:
       author_id:
         type: integer
         description: ID автора
+      viewed_at:
+        type: date
+        description: Просмотрено в
       message:
         type: string
         description: Текст сообщения
@@ -1373,9 +1125,9 @@ definitions:
       type:
         type: integer
         description: Тип
-      producer_id:
+      specialization_producer_id:
         type: integer
-        description: Поставщик
+        description: ID Поставщик
       name:
         type: integer
         description: Наименование
@@ -1415,7 +1167,7 @@ definitions:
         items:
           type: integer
           description: ID продукта
-  Shop:
+  !Specialization_shop:
     type: object
     properties:
       id:
@@ -1424,12 +1176,12 @@ definitions:
       created_at:
         type: integer
         description: Дата создания
-      phone:
-        type: string
-        description: Телефон
       title:
         type: string
         description: Название магазина
+      phone:
+        type: string
+        description: Телефон
       address:
         type: string
         description: Адрес
@@ -1439,9 +1191,6 @@ definitions:
       email:
         type: string
         description: Email
-      text:
-        type: string
-        description: Описание магазина
       latitude:
         type: integer
         description: Широта карты
@@ -1451,9 +1200,12 @@ definitions:
       zoom:
         type: integer
         description: Долгота карты
-      owner_id:
+      shop_id:
         type: integer
         description: ID владельца
+      district_id:
+        type: integer
+        description: ID района
   Error_message:
     type: object
     properties:
@@ -1490,42 +1242,12 @@ definitions:
       count:
         type: string
         description: Количество
-  Complaint_message:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      sender_id:
-        type: integer
-        description: ID отправителя
-      shop_id:
-        type: integer
-        description: ID магазина
   Statistic:
     type: object
     properties:
       id:
         type: integer
         description: Уникальный ID
-  Provisioner:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      title:
-        type: string
-        description: Название организации
-      phone:
-        type: string
-        description: Телефон
-      email:
-        type: string
-        description: Email
-      password:
-        type: string
-        description: Пароль
   Review:
     type: object
     properties:
@@ -1547,9 +1269,6 @@ definitions:
       id:
         type: integer
         description: Уникальный ID
-      producer_id:
-        type: integer
-        description: ID поставщика
       specialization_producer_id:
         type: integer
         description: ID подразделения поставщика
