@@ -453,6 +453,14 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Message'
+  /dialogs/unread_messages_count:
+    get:
+      summary: Количество всех непрочитанных сообщений
+      responses:
+        200:
+          description: Количество всех непрочитанных сообщений
+          schema:
+            type: integer
   /dialogs/{id}:
     get:
       summary: Просмотр сообщений в диалоге с ID
@@ -1145,6 +1153,45 @@ definitions:
           type: integer
           description: ID продукта
   Specialization_shop:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+      title:
+        type: string
+        description: Название магазина
+      phone:
+        type: string
+        description: Телефон
+      address:
+        type: string
+        description: Адрес
+      skype:
+        type: string
+        description: Skype
+      email:
+        type: string
+        description: Email
+      latitude:
+        type: integer
+        description: Широта карты
+      longitude:
+        type: integer
+        description: Долгота карты
+      zoom:
+        type: integer
+        description: Зум карты
+      shop_id:
+        type: integer
+        description: ID магазина
+      district_id:
+        type: integer
+        description: ID района
+  Specialization_producer:
     type: object
     properties:
       id:
