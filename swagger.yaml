@@ -14,7 +14,7 @@ produces:
   - application/json
 
 paths:
-  !/register:
+  /register:
     post:
       summary: Регистрация
       parameters:
@@ -32,19 +32,19 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
-  !/login:
+  /login:
     post:
       summary: Авторизация
       produces:
         - application/json
       parameters:
         - name: username
-          in: query
+          in: body
           type: string
           description: Email пользователя
           required: true
         - name: password
-          in: query
+          in: body
           type: string
           description: Пароль
           required: true
@@ -56,7 +56,7 @@ paths:
               "token": "NnPgly3zFncYj-yFLC-KUvqEIWV0hg2j",
               "expired": "2017-03-14T11:15:48+06:00",
             }
-  !/categories:
+  /categories:
     get:
       summary: Категории
       parameters:
@@ -88,7 +88,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Category'
-  !/brands:
+  /brands:
     get:
       summary: Бренды
       parameters:
@@ -120,7 +120,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Brand'
-  !/provisioners:
+  /provisioners:
     get:
       summary: Поставщики
       parameters:
@@ -152,18 +152,65 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Specialization_producer'
-  !/products:
+  /favorite_products:
     get:
-      summary: Товары
+      summary: ID избранных товаров
       parameters:
-        - name: filter
+        - name: page
           in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
           type: array
           items:
             type: array
             items:
               type: string
+      responses:
+        200:
+          description: Массив ID избранных товаров
+          schema:
+            type: array
+            items:
+              type: integer
+              description: ID товара
+    post:
+      summary: Добавление продукта в избранное
+      parameters:
+        - name: product_id
+          in: body
+          description: ID продукта
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Успешная операция
+    delete:
+      summary: Удаление продукта из избранного
+      parameters:
+        - name: product_id
+          in: body
+          description: ID продукта
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Успешная операция
+  /products:
+    get:
+      summary: Товары
+      parameters:
         - name: page
           in: query
           description: № cтраницы
@@ -203,82 +250,15 @@ paths:
             $ref: '#/definitions/Product'
       responses:
         200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Product'
-  !/favorite_products:
-    get:
-      summary: Товары
-      parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-        - name: page
-          in: query
-          description: № cтраницы
-          type: integer
-          format: int64
-          default: 1
-          required: true
-        - name: limit
-          in: query
-          description: Лимит
-          type: integer
-          format: int64
-          default: 30
-        - name: search
-          in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-      responses:
-        200:
-          description: Массив Товаров
-          schema:
-            type: array
-            items:
-              type: integer
-              description: ID товара
-      responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Product'
-    post:
-      summary: Добавление продукта в избранное
-      parameters:
-        - name: product_id
-          in: body
-          description: ID продукта
-          type: integer
-          required: true
-      responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Product'
-    delete:
-      summary: Удаление продукта из избранного
-      parameters:
-        - name: product_id
-          in: body
-          description: ID продукта
-          type: integer
-          required: true
-      responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Product'
-  !/product/{id}:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /product/{id}:
     post:
       summary: Редактирование продукта
       parameters:
@@ -296,10 +276,15 @@ paths:
             $ref: '#/definitions/Product'
       responses:
         200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Product'
-  !/product/{id}/create_error_message:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /product/{id}/create_error_message:
     post:
       summary: Добавление информации об ошибке
       parameters:
@@ -316,11 +301,16 @@ paths:
           schema:
             $ref: '#/definitions/Error_message'
       responses:
-        200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Error_message'
-  !/product_error_message/{id}: 
+       200:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /product_error_message/{id}: 
     delete:
       summary: Удаление сообщения
       parameters:
@@ -332,7 +322,7 @@ paths:
       responses:
         200:
           description: Успешное удаление
-  !/price_categories:
+  /price_categories:
     get:
       summary: Категории цен
       responses:
@@ -342,18 +332,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Price_category'
-  !/articles:
+  /articles:
     get:
       summary: Список страниц
       parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
         - name: page
           in: query
           description: № cтраницы
@@ -382,7 +364,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Article'
-  !/partners:
+  /partners:
     get:
       summary: Список партнеров
       parameters:
@@ -414,7 +396,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Partner'
-  !/dialogs:
+  /dialogs:
     get:
       summary: Диалоги
       parameters:
@@ -446,7 +428,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Dialog'
-  !/dialog/categories;
+  /dialog/categories:
     get:
       summary: Список категорий диалогов
       responses:
@@ -455,8 +437,8 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Dialog_category
-  !/dialogs/necessary_product:
+              $ref: '#/definitions/Dialog_category'
+  /dialogs/necessary_product:
     post:
       summary: Отправка сообщения всем поставщикам о недостающем товаре
       parameters:
@@ -471,7 +453,7 @@ paths:
           description: product response
           schema:
             $ref: '#/definitions/Message'
-  !/dialogs/{id}:
+  /dialogs/{id}:
     get:
       summary: Просмотр сообщений в диалоге с ID
       parameters:
@@ -505,13 +487,17 @@ paths:
             $ref: '#/definitions/Message'
       responses:
         200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Message'
-  !/dialogs/create_with_provisioner/{id}:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /dialogs/create_with_provisioner/{id}:
     post:
       summary: Создание диалога
-      parameters:
       parameters:
         - name: id
           in: path
@@ -527,21 +513,11 @@ paths:
             $ref: '#/definitions/Message'
       responses:
         200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Message'
-  !/shops:
+          description: Успешное создание
+  /shops:
     get:
       summary: Магазины
       parameters:
-        - name: filter
-          in: query
-          description: Фильтр по параметрам (Пример запроса &filter[name]=neededname&filter[name]=other value)
-          type: array
-          items:
-            type: array
-            items:
-              type: string
         - name: page
           in: query
           description: № cтраницы
@@ -569,8 +545,8 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Shop'
-  !/actions:
+              $ref: '#/definitions/Specialization_shop'
+  /actions:
     get:
       summary: Акции
       parameters:
@@ -613,10 +589,15 @@ paths:
             $ref: '#/definitions/Action'
       responses:
         200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Action'
-  !/action/{id}:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /action/{id}:
     post:
       summary: Редактирование акции
       parameters:
@@ -634,10 +615,15 @@ paths:
             $ref: '#/definitions/Action'
       responses:
         200:
-          description: Action response
-          schema:
-            $ref: '#/definitions/Action'
-  !/orders:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /orders:
     get:
       summary: Заказы
       parameters:
@@ -696,43 +682,44 @@ paths:
           in: query
           description: Продукты заказа
           type: array
-          type: array
           items:
             $ref: '#/definitions/Order_product'
           required: true
       responses:
         200:
-          description: Успешное добавление
+          description: Успешное сохранение
         422:
           description: |
             Ошибки в валидации
             Сервер вернет следующую структуру:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
-  !/order/{$id}/change_status:
+        401:
+          description: Нет доступа на запись
+  /order/{$id}/change_status:
     post:
       summary: Смена статуса заказа
       parameters:
         - name: status
-          in: query
+          in: body
           description: Новый статус
           type: integer
           required: true
       responses:
         200:
           description: Успешное изменение
-  !/order/{$id}/change_date:
+  /order/{$id}/change_date:
     post:
       summary: Смена даты поставки
       parameters:
         - name: status
-          in: query
+          in: body
           description: Новая дата
           type: date
           required: true
       responses:
         200:
           description: Успешное изменение
-  !/order/{$id}/comments:
+  /order/{$id}/comments:
     get:
       summary: Комментарии к заказу
       parameters:
@@ -764,7 +751,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Order_comment'
-  !/order/{$id}/new_comment:
+  /order/{$id}/new_comment:
     post:
       summary: Добавление комментария
       parameters:
@@ -775,48 +762,69 @@ paths:
           required: true
       responses:
         200:
-          description: Успешное добавление комментария
-  !/order_product/{$id}/add:
-    post:
-      summary: Добавление товара
-      parameters:
-        - name: id
-          in: path
-          description: ID товара
-          type: integer
-          required: true
-        - name: count
-          in: path
-          description: Количество товара
-          type: integer
-          required: true
-      responses:
-        200:
-          description: Успешное добавление
+          description: Успешное сохранение
         422:
           description: |
             Ошибки в валидации
             Сервер вернет следующую структуру:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
-  !/order_product/{$id}/remove:
-    delete:
-      summary: Удаление связи
+        401:
+          description: Нет доступа на запись
+  /order/{$id}/product:
+    post:
+      summary: Добавление товара
       parameters:
         - name: id
-          in: query
-          description: ID связи
+          in: path
+          description: ID заказа
+          type: integer
+          required: true
+        - name: product_id
+          in: body
+          description: ID товара
+          type: integer
+          required: true
+        - name: count
+          in: body
+          description: Количество товара
+          type: integer
+          required: true
+      responses:
+        200:
+          description: Успешное сохранение
+    delete:
+      summary: Удаление товара из заказа
+      parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          type: integer
+          required: true
+        - name: product_id
+          in: body
+          description: ID товара
           type: integer
           required: true
       responses:
         200:
           description: Успешное удаление
-  !/order_product/{$id}/update_count:
-    post:
-      summary: Удаление связи
+    put:
+      summary: Изменение количества товара
+      parameters:
+        - name: id
+          in: body
+          description: ID товара
+          type: integer
+          required: true
+        - name: count
+          in: body
+          description: Количество товара
+          type: integer
+          required: true
       responses:
         200:
           description: Успешное удаление
-  !/profile:
+  /profile:
     get:
       summary: Профиль пользователя
       responses:
@@ -835,27 +843,15 @@ paths:
             $ref: '#/definitions/Profile'
       responses:
         200:
-          description: product response
-          schema:
-            $ref: '#/definitions/Profile'
-  /statistic:
-    get:
-      summary: Статистика
-      parameters:
-        - name: filter
-          in: query
-          description: tags to filter by
-          required: false
-          type: array
-          collectionFormat: csv
-          items:
-            type: string
-      responses:
-        200:
-          description: Статистика
-          schema:
-            $ref: '#/definitions/Statistic'
-  !/managers:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /managers:
     get:
       summary: Список сотрудников
       responses:
@@ -865,11 +861,11 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Profile'
-  !/managers/{$id}:
+  /managers/{$id}:
     delete:
       summary: Удаление сотрудника
       parameters:
-        - name: manager_id
+        - name: id
           in: query
           description: ID сотрудника
           type: date
@@ -878,9 +874,8 @@ paths:
         200:
           description: Успешное удаление
 
-
 definitions:
-  !Product:
+  Product:
     type: object
     properties:
       id:
@@ -895,18 +890,12 @@ definitions:
       category_id:
         type: integer
         description: ID категории
-      provisioner_id:
-        type: integer
-        description: ID поставщика
       specialization_producer_id:
         type: integer
         description: ID подразделения поставщика
       brand_id:
         type: integer
         description: ID бренда
-      is_in_stop_list:
-        type: integer
-        description: Нахождение в стоп-листе
       attributes:
         type: array
         description: Атрибуты
@@ -924,7 +913,7 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Price_item'
-  !Product_attribute_value:
+  Product_attribute:
     type: object
     description: Атрибут товара
     properties:
@@ -940,7 +929,7 @@ definitions:
       value:
         type: string
         description: Значение атрибута
-  !Product_attribute_type:
+  Product_attribute_type:
     type: object
     description: Тип атрибута
     properties:
@@ -953,7 +942,7 @@ definitions:
       unit:
         type: string
         description: Еденицы
-  !Price_category:
+  Price_category:
     type: object
     properties:
       id:
@@ -962,7 +951,7 @@ definitions:
       name:
         type: string
         description: Название категории цен
-  !Price_item:
+  Price_item:
     type: object
     properties:
       id:
@@ -974,7 +963,7 @@ definitions:
       price:
         type: string
         description: Цена
-  !Category:
+  Category:
     type: object
     properties:
       id:
@@ -996,7 +985,7 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Category_filter'
-  !Category_filter:
+  Category_filter:
     type: object
     properties:
       id:
@@ -1008,7 +997,7 @@ definitions:
       attribute_id:
         type: string
         description: ID атрибута для фильтрации
-  !Brand:
+  Brand:
     type: object
     properties:
       id:
@@ -1020,7 +1009,7 @@ definitions:
       image:
         type: string
         description: Image URL representing the product.
-  !Article:
+  Article:
     type: object
     properties:
       id:
@@ -1041,19 +1030,7 @@ definitions:
       category_id:
         type: integer
         description: ID категории
-  FAQ_page:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      title:
-        type: string
-        description: Название
-      text:
-        type: string
-        description: Текст
-  !Partner:
+  Partner:
     type: object
     properties:
       id:
@@ -1068,7 +1045,7 @@ definitions:
       link:
         type: string
         description: Ссылка
-  !Dialog:
+  Dialog:
     type: object
     properties:
       id:
@@ -1086,7 +1063,7 @@ definitions:
       sub_name:
         type: string
         description: Компания собеседника
-  !Dialog_category:
+  Dialog_category:
     type: object
     properties:
       id:
@@ -1098,7 +1075,7 @@ definitions:
       name:
         type: string
         description: Название категории
-  !Message:
+  Message:
     type: object
     properties:
       id:
@@ -1119,7 +1096,7 @@ definitions:
       message:
         type: string
         description: Текст сообщения
-  !Action:
+  Action:
     type: object
     properties:
       type:
@@ -1145,7 +1122,7 @@ definitions:
         description: Массив продуктов участвующих в акции
         items:
           type: integer
-          description: ID продукта
+          description: ID продуктов
       category_ids:
         type: array
         description: Массив категорий
@@ -1167,7 +1144,7 @@ definitions:
         items:
           type: integer
           description: ID продукта
-  !Specialization_shop:
+  Specialization_shop:
     type: object
     properties:
       id:
@@ -1187,7 +1164,7 @@ definitions:
         description: Адрес
       skype:
         type: string
-        description: skype
+        description: Skype
       email:
         type: string
         description: Email
@@ -1199,71 +1176,14 @@ definitions:
         description: Долгота карты
       zoom:
         type: integer
-        description: Долгота карты
+        description: Зум карты
       shop_id:
         type: integer
-        description: ID владельца
+        description: ID магазина
       district_id:
         type: integer
         description: ID района
-  Error_message:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      sender_id:
-        type: integer
-        description: ID отправителя
-      text:
-        type: string
-        description: Текст сообщения
-      product_id:
-        type: integer
-        description: ID продукта у которого ошибка
-  Delivery:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-  Delivery_product:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      delivery_id:
-        type: string
-        description: ID сущности доставки
-      product_id:
-        type: string
-        description: ID продукта
-      count:
-        type: string
-        description: Количество
-  Statistic:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-  Review:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      name:
-        type: string
-        description: Имя отправителя
-      sender_id:
-        type: string
-        description: ID отправителя
-      shop_id:
-        type: string
-        description: ID Магазина
-  !Order:
+  Order:
     type: object
     properties:
       id:
@@ -1296,7 +1216,7 @@ definitions:
       date_of_delivery:
         type: date
         description: Дата поставки
-  !Order_product:
+  Order_product:
     type: object
     description: Товар в заказе
     properties:
@@ -1315,7 +1235,7 @@ definitions:
       price:
         type: integer
         description: Цена
-  !Order_comment:
+  Order_comment:
     type: object
     description: Комментарий к заказу
     properties:
@@ -1331,7 +1251,7 @@ definitions:
       price:
         type: integer
         description: Цена
-  !Profile:
+  Profile:
     type: object
     properties:
       id:
@@ -1401,7 +1321,7 @@ definitions:
       address:
         type: string
         description: Адрес
-  !User_for_authorization:
+  User_for_authorization:
     type: object
     properties:
       role:
@@ -1439,18 +1359,10 @@ definitions:
         description: Адрес
       latitude:
         type: integer
-        description: Широта
+        description: Широта карты
       longitude:
         type: integer
-        description: Долгота
-
-#  10. Служба поддержки
-#  11. Жалобы и предложения
-#  16. Команда
-#  16.1 Получение списка работников
-#  16.2 Получение информации о работнике
-#  17. Точки
-#  17.1 Получение списка точек
-#  18. Пополнение баланса
-#  19. Смена плана
-#  20. История платежей
+        description: Долгота карты
+      zoom:
+        type: integer
+        description: Долгота карты
