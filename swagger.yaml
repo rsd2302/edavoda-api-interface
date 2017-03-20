@@ -1083,27 +1083,6 @@ definitions:
       name:
         type: string
         description: Название категории
-  Message:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      created_at:
-        type: integer
-        description: Дата создания
-      dialog_id:
-        type: integer
-        description: ID диалога
-      author_id:
-        type: integer
-        description: ID автора
-      viewed_at:
-        type: date
-        description: Просмотрено в
-      message:
-        type: string
-        description: Текст сообщения
   Action:
     type: object
     properties:
@@ -1152,6 +1131,27 @@ definitions:
         items:
           type: integer
           description: ID продукта
+  Message:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+      dialog_id:
+        type: integer
+        description: ID диалога
+      author_id:
+        type: integer
+        description: ID автора
+      viewed_at:
+        type: date
+        description: Просмотрено в
+      message:
+        type: string
+        description: Текст сообщения
   Specialization_shop:
     type: object
     properties:
