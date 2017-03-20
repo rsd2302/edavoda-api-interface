@@ -1,4 +1,4 @@
-  # this is an example of the Uber API
+# this is an example of the Uber API
 # as a demonstration of an API spec in YAML
 swagger: '2.0'
 info:
@@ -39,12 +39,12 @@ paths:
         - application/json
       parameters:
         - name: username
-          in: body
+          in: formData
           type: string
           description: Email пользователя
           required: true
         - name: password
-          in: body
+          in: formData
           type: string
           description: Пароль
           required: true
@@ -189,7 +189,7 @@ paths:
       summary: Добавление продукта в избранное
       parameters:
         - name: product_id
-          in: body
+          in: formData
           description: ID продукта
           type: integer
           required: true
@@ -200,7 +200,7 @@ paths:
       summary: Удаление продукта из избранного
       parameters:
         - name: product_id
-          in: body
+          in: formData
           description: ID продукта
           type: integer
           required: true
@@ -299,9 +299,9 @@ paths:
           description: ИНформация об ошибке
           required: true
           schema:
-            $ref: '#/definitions/Error_message'
+            $ref: '#/definitions/Message'
       responses:
-       200:
+        200:
           description: Успешное сохранение
         422:
           description: |
@@ -315,7 +315,7 @@ paths:
       summary: Удаление сообщения
       parameters:
         - name: id
-          in: query
+          in: path
           description: ID сообщения
           type: integer
           required: true
@@ -667,32 +667,45 @@ paths:
       summary: Добавление заказа
       parameters:
         - name: delivery_type_id
-          in: query
+          in: formData
           description: Тип доставки
           type: integer
           required: true
         - name: provisioner_id
-          in: query
+          in: formData
           description: ID поставщика
           type: integer
           required: true
         - name: pay_type_id
-          in: query
+          in: formData
           description: Способ оплаты
           type: integer
           required: true
         - name: specialization_shop_id
-          in: query
+          in: formData
           description: Точка магазина
           type: integer
           required: true
         - name: products
-          in: query
-          description: Продукты заказа
-          type: array
-          items:
-            $ref: '#/definitions/Order_product'
-          required: true
+          in: formData
+          type: string
+          description: |
+            Продукты заказа. Представляют из себя следующую структуру:
+            [
+              {
+                product_id: 3, // ID продукта
+                count: 4, // Количество
+                price: 5, // Цена
+              
+              },
+              ...
+              {
+                product_id: 3, // ID продукта
+                count: 4, // Количество
+                price: 5, // Цена
+              
+              }
+            ]
       responses:
         200:
           description: Успешное сохранение
@@ -703,34 +716,49 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
-  /order/{$id}/change_status:
+  /order/{id}/change_status:
     post:
       summary: Смена статуса заказа
       parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          type: integer
+          required: true
         - name: status
-          in: body
+          in: formData
           description: Новый статус
           type: integer
           required: true
       responses:
         200:
           description: Успешное изменение
-  /order/{$id}/change_date:
+  /order/{id}/change_date:
     post:
       summary: Смена даты поставки
       parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          type: integer
+          required: true
         - name: status
-          in: body
+          in: formData
           description: Новая дата
-          type: date
+          type: string
           required: true
       responses:
         200:
           description: Успешное изменение
-  /order/{$id}/comments:
+  /order/{id}/comments:
     get:
       summary: Комментарии к заказу
       parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          type: integer
+          required: true
         - name: page
           in: query
           description: № cтраницы
@@ -759,10 +787,15 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Order_comment'
-  /order/{$id}/new_comment:
+  /order/{id}/new_comment:
     post:
       summary: Добавление комментария
       parameters:
+        - name: id
+          in: path
+          description: ID заказа
+          type: integer
+          required: true
         - name: comment
           in: query
           description: Комментарий
@@ -778,7 +811,7 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
-  /order/{$id}/product:
+  /order/{id}/product:
     post:
       summary: Добавление товара
       parameters:
@@ -788,12 +821,12 @@ paths:
           type: integer
           required: true
         - name: product_id
-          in: body
+          in: formData
           description: ID товара
           type: integer
           required: true
         - name: count
-          in: body
+          in: formData
           description: Количество товара
           type: integer
           required: true
@@ -809,7 +842,7 @@ paths:
           type: integer
           required: true
         - name: product_id
-          in: body
+          in: formData
           description: ID товара
           type: integer
           required: true
@@ -820,12 +853,12 @@ paths:
       summary: Изменение количества товара
       parameters:
         - name: id
-          in: body
+          in: path
           description: ID товара
           type: integer
           required: true
         - name: count
-          in: body
+          in: formData
           description: Количество товара
           type: integer
           required: true
@@ -869,14 +902,14 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Profile'
-  /managers/{$id}:
+  /managers/{id}:
     delete:
       summary: Удаление сотрудника
       parameters:
         - name: id
-          in: query
+          in: path
           description: ID сотрудника
-          type: date
+          type: string
           required: true
       responses:
         200:
@@ -1083,6 +1116,27 @@ definitions:
       name:
         type: string
         description: Название категории
+  Message:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      created_at:
+        type: integer
+        description: Дата создания
+      dialog_id:
+        type: integer
+        description: ID диалога
+      author_id:
+        type: integer
+        description: ID автора
+      viewed_at:
+        type: string
+        description: Просмотрено в
+      message:
+        type: string
+        description: Текст сообщения
   Action:
     type: object
     properties:
@@ -1131,27 +1185,6 @@ definitions:
         items:
           type: integer
           description: ID продукта
-  Message:
-    type: object
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      created_at:
-        type: integer
-        description: Дата создания
-      dialog_id:
-        type: integer
-        description: ID диалога
-      author_id:
-        type: integer
-        description: ID автора
-      viewed_at:
-        type: date
-        description: Просмотрено в
-      message:
-        type: string
-        description: Текст сообщения
   Specialization_shop:
     type: object
     properties:
@@ -1248,40 +1281,21 @@ definitions:
       status:
         type: integer
         description: Статус заказа в целочисленом виде (Новый, В работе, Выполнен, Отменен)
-      shop_information:
-        type: integer
+      producer_information:
+        type: string
         description: Информация о поставщике
       shop_information:
-        type: integer
+        type: string
         description: Информация о магазине
       price:
         type: integer
         description: Сумма заказа
       order date:
-        type: date-time
+        type: string
         description: Дата заказа
       date_of_delivery:
-        type: date
+        type: string
         description: Дата поставки
-  Order_product:
-    type: object
-    description: Товар в заказе
-    properties:
-      id:
-        type: integer
-        description: Уникальный ID
-      order_id:
-        type: string
-        description: ID заказа
-      product_id:
-        type: string
-        description: ID продукта
-      count:
-        type: string
-        description: Количество
-      price:
-        type: integer
-        description: Цена
   Order_comment:
     type: object
     description: Комментарий к заказу
