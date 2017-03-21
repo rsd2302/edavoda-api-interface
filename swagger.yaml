@@ -1372,6 +1372,12 @@ definitions:
       district_id:
         type: integer
         description: ID района
+      categories:
+        type: array
+        description: Список состоящий из ID категорий, в которых присутствуют товары поставщика
+      brands:
+        type: array
+        description: Список состоящий из ID брендов, которе имеют товары поставщика
   Order:
     type: object
     properties:
