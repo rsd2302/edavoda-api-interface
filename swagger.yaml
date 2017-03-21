@@ -980,7 +980,7 @@ definitions:
           $ref: '#/definitions/Price_item'
       actions:
         type: array
-        description: ID акций
+        description: ID акций в которых участвует этот товар
         items:
           type: string
   Product_attribute:
@@ -1055,6 +1055,11 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/Category_filter'
+      actions:
+        type: array
+        description: ID акций в которых участвует этот товар
+        items:
+          type: string
   Category_filter:
     type: object
     properties:
