@@ -54,6 +54,9 @@ paths:
             Сервер вернет следующую структуру:
             {
               "token": "NnPgly3zFncYj-yFLC-KUvqEIWV0hg2j",
+              "role": "1", // Тип пользователя (Поставщик, магазин)
+              "shop_id": "", // ID магазина (Если есть)
+              "producer_id": "", // ID поставщика (Если есть)
               "expired": "2017-03-14T11:15:48+06:00",
             }
   /categories:
@@ -518,7 +521,7 @@ paths:
           description: ИНформация о сообщении
           required: true
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Message_for_necessary_product'
       responses:
         200:
           description: Успешное создание
@@ -1134,6 +1137,12 @@ definitions:
       viewed_at:
         type: string
         description: Просмотрено в
+      message:
+        type: string
+        description: Текст сообщения
+  Message_for_necessary_product:
+    type: object
+    properties:
       message:
         type: string
         description: Текст сообщения
