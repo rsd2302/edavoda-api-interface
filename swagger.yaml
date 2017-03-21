@@ -889,7 +889,7 @@ paths:
       responses:
         200:
           description: Успешное удаление
-  /profiles/shop:
+  /profile/shop:
     get:
       summary: Профиль магазина
       responses:
