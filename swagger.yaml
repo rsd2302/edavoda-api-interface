@@ -889,14 +889,14 @@ paths:
       responses:
         200:
           description: Успешное удаление
-  /profile:
+  /profiles/shop:
     get:
-      summary: Профиль пользователя
+      summary: Профиль магазина
       responses:
         200:
           description: получение информации
           schema:
-            $ref: '#/definitions/Profile'
+            $ref: '#/definitions/Profile_shop'
     post:
       summary: Редактирование профиля
       parameters:
@@ -905,7 +905,7 @@ paths:
           description: ИНформация о профиле
           required: true
           schema:
-            $ref: '#/definitions/Profile'
+            $ref: '#/definitions/Profile_shop'
       responses:
         200:
           description: Успешное сохранение
@@ -916,7 +916,34 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
-  /managers:
+  /profile/provisioner:
+    get:
+      summary: Профиль поставщика
+      responses:
+        200:
+          description: получение информации
+          schema:
+            $ref: '#/definitions/Profile_provisioner'
+    post:
+      summary: Редактирование профиля
+      parameters:
+        - name: profile
+          in: body
+          description: ИНформация о профиле
+          required: true
+          schema:
+            $ref: '#/definitions/Profile_provisioner'
+      responses:
+        200:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
+  /shop_managers:
     get:
       summary: Список сотрудников
       responses:
@@ -925,8 +952,31 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Profile'
-  /managers/{id}:
+              $ref: '#/definitions/Profile_shop'
+  /shop_managers/{id}:
+    delete:
+      summary: Удаление сотрудника
+      parameters:
+        - name: id
+          in: path
+          description: ID сотрудника
+          type: string
+          required: true
+      responses:
+        200:
+          description: Успешное удаление
+
+  /provisioner_managers:
+    get:
+      summary: Список сотрудников
+      responses:
+        200:
+          description: получение информации
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Profile_provisioner'
+  /provisioner_managers/{id}:
     delete:
       summary: Удаление сотрудника
       parameters:
@@ -1352,7 +1402,7 @@ definitions:
       price:
         type: integer
         description: Цена
-  Profile:
+  Profile_shop:
     type: object
     properties:
       id:
@@ -1398,6 +1448,60 @@ definitions:
             }
           ]
   
+      position_id:
+        type: integer
+        description: Должность
+      iin:
+        type: string
+        description: ИИН
+      fio:
+        type: string
+        description: ФИО Рукводителя
+      mobile_phone:
+        type: string
+        description: Мобильный телефон
+      work_phone:
+        type: string
+        description: Рабочий телефон
+      comments:
+        type: string
+        description: Комментарий
+      email:
+        type: string
+        description: Email
+      address:
+        type: string
+        description: Адрес
+  Profile_provisioner:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      image:
+        type: string
+        description: Изображение
+      balance:
+        type: integer
+        description: Баланс
+      username:
+        type: string
+        description: Username
+      specializations-producer:
+        type: array
+        description: |
+          Подразделение для поставщика
+          Массив вида:
+          [
+            {
+              'id': 1,
+              'name': 'asd'
+            },
+            {
+              'id': 2,
+              'name': 'asd2'
+            }
+          ]
       position_id:
         type: integer
         description: Должность
