@@ -557,6 +557,27 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Specialization_shop'
+  /shop/{id}:
+    get:
+      summary: Получение информации о магазине
+      parameters:
+        - name: id
+          in: path
+          description: ID магазина
+          required: true
+          type: integer
+          format: int64
+        - name: action
+          in: body
+          description: ИНформация о магазине
+          required: true
+          schema:
+            $ref: '#/definitions/Specialization_shop'
+      responses:
+        200:
+          description: Продукт
+          schema:
+            $ref: '#/definitions/Specialization_shop'
   /actions:
     get:
       summary: Акции
@@ -957,6 +978,11 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Price_item'
+      actions:
+        type: array
+        description: ID акций
+        items:
+          type: string
   Product_attribute:
     type: object
     description: Атрибут товара
