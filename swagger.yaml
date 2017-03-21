@@ -1002,6 +1002,9 @@ definitions:
       title:
         type: string
         description: Название
+      image:
+        type: string
+        description: Превью товара (для списка). Размером 100x100px
       category_id:
         type: integer
         description: ID категории
@@ -1023,7 +1026,7 @@ definitions:
         type: array
         description: Фотографии
         items:
-          type: string
+          $ref: '#/definitions/Product_image'
       prices:
         type: array
         items:
@@ -1071,6 +1074,22 @@ definitions:
       name:
         type: string
         description: Название категории цен
+  Product_image:
+    type: object
+    description: Изображение продукта
+    properties:
+      small:
+        type: string
+        description: Среднее изображение размером ограниченное по ширине и высоте в 320x320
+      medium:
+        type: string
+        description: Среднее изображение размером ограниченное по ширине и высоте в 700x700
+      big:
+        type: string
+        description: Большое изображение размером ограниченное по ширине и высоте в 1000x1000
+      original:
+        type: string
+        description: Оригинальное изображение
   Price_item:
     type: object
     properties:
