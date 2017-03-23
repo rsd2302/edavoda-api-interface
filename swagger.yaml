@@ -1593,6 +1593,3 @@ definitions:
       longitude:
         type: integer
         description: Долгота карты
-      zoom:
-        type: integer
-        description: Долгота карты
