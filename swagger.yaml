@@ -1555,8 +1555,8 @@ definitions:
     type: object
     properties:
       role:
-        type: integer
-        description: Роль
+        type: string
+        description: Роль (shop или producer)
       type:
         type: integer
         description: Тип
