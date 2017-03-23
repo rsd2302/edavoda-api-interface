@@ -719,15 +719,11 @@ paths:
               {
                 product_id: 3, // ID продукта
                 count: 4, // Количество
-                price: 5, // Цена
-              
               },
               ...
               {
                 product_id: 3, // ID продукта
                 count: 4, // Количество
-                price: 5, // Цена
-              
               }
             ]
       responses:
