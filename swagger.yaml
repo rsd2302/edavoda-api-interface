@@ -244,13 +244,19 @@ paths:
               $ref: '#/definitions/Product'
     post:
       summary: Создание продукта
+      consumes:
+        - multipart/form-data  # and/or application/x-www-form-urlencoded
       parameters:
         - name: product
-          in: body
-          description: Информация о продукте
+          in: formData
+          description: Информация о продукте в виде json объекта аналогично возвращаемому методом GET /product/{id}
           required: true
-          schema:
-            $ref: '#/definitions/Product'
+          type: string
+        - name: image
+          in: formData
+          description: Изобаржение продукта
+          required: true
+          type: file
       responses:
         200:
           description: Успешное сохранение
