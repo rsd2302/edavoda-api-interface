@@ -249,7 +249,39 @@ paths:
       parameters:
         - name: product
           in: formData
-          description: Информация о продукте в виде json объекта аналогично возвращаемому методом GET /product/{id}
+          description: |
+            Информация о продукте в виде следующего json объекта:
+            {
+              "sku": 010101,
+              "title": "iPhone 7",
+              "category_id": 189,
+              "brand_id": 12,
+              "description": "Описание",
+              "attributes": [
+                {
+                  "product_attribute_type_id": 34,
+                  "value": "12"
+                },
+                {
+                  "product_attribute_type_id": 35,
+                  "value": "4.7"
+                }
+              ],
+              "prices": [
+                {
+                  "price_category_id": 1,
+                  "price": 280000
+                },
+                {
+                  "price_category_id": 2,
+                  "price": 285000
+                },
+                {
+                  "price_category_id": 3,
+                  "price": 300000
+                }
+              ]
+            }
           required: true
           type: string
         - name: image
@@ -880,6 +912,11 @@ paths:
       parameters:
         - name: id
           in: path
+          description: ID заказа
+          type: integer
+          required: true
+        - name: product_id
+          in: formData
           description: ID товара
           type: integer
           required: true
