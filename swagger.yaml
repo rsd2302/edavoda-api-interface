@@ -122,6 +122,38 @@ paths:
           schema:
             type: array
             items:
+              $ref: '#/definitions/Payment_method'
+  /payment_methods:
+    get:
+      summary: Методы оплаты
+      parameters:
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: Массив Брендов
+          schema:
+            type: array
+            items:
               $ref: '#/definitions/Brand'
   /provisioners:
     get:
@@ -1004,7 +1036,6 @@ paths:
       responses:
         200:
           description: Успешное удаление
-
   /provisioner_managers:
     get:
       summary: Список сотрудников
@@ -1192,6 +1223,18 @@ definitions:
       image:
         type: string
         description: Image URL representing the product.
+  Payment_method:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Уникальный ID
+      name:
+        type: string
+        description: Название
+      status:
+        type: string
+        description: Статус (Неважное поле)
   Article:
     type: object
     properties:
@@ -1434,7 +1477,14 @@ definitions:
         description: ID торговой точки
       status:
         type: integer
-        description: Статус заказа в целочисленом виде (Новый, В работе, Выполнен, Отменен)
+        description: |
+          Статус заказа в целочисленом виде
+          Существуют следующие статусы:
+            1 Новый заказ
+            2 В работе
+            3 Доставка
+            4 Выполены
+            5 Отменены
       producer_information:
         type: string
         description: Информация о поставщике
