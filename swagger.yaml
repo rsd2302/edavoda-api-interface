@@ -960,14 +960,21 @@ paths:
       responses:
         200:
           description: Успешное удаление
-  /profile/shop:
+  /profile/shop/{id}:
     get:
       summary: Профиль магазина
+      parameters:
+        - name: id
+          in: path
+          description: ID магазина
+          type: string
+          required: true
       responses:
         200:
           description: получение информации
           schema:
             $ref: '#/definitions/Profile_shop'
+  /profile/shop:
     post:
       summary: Редактирование профиля
       parameters:
@@ -987,14 +994,21 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
-  /profile/provisioner:
+  /profile/provisioner/{id}:
     get:
       summary: Профиль поставщика
+      parameters:
+        - name: id
+          in: path
+          description: ID магазина
+          type: string
+          required: true
       responses:
         200:
           description: получение информации
           schema:
             $ref: '#/definitions/Profile_provisioner'
+  /profile/provisioner:
     post:
       summary: Редактирование профиля
       parameters:
