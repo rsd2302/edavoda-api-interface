@@ -1028,9 +1028,15 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
-  /shop_managers:
+  /shop_managers/{id}:
     get:
-      summary: Список сотрудников
+      summary: Список сотрудников для пользователя
+      parameters:
+        - name: id
+          in: path
+          description: ID сотрудника
+          type: string
+          required: true
       responses:
         200:
           description: получение информации
@@ -1038,7 +1044,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Profile_shop'
-  /shop_managers/{id}:
     delete:
       summary: Удаление сотрудника
       parameters:
@@ -1050,9 +1055,15 @@ paths:
       responses:
         200:
           description: Успешное удаление
-  /provisioner_managers:
+  /provisioner_managers/{id}:
     get:
-      summary: Список сотрудников
+      summary: Список сотрудников для пользователя
+      parameters:
+        - name: id
+          in: path
+          description: ID сотрудника
+          type: string
+          required: true
       responses:
         200:
           description: получение информации
@@ -1060,7 +1071,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Profile_provisioner'
-  /provisioner_managers/{id}:
     delete:
       summary: Удаление сотрудника
       parameters:
