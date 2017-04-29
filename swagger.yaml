@@ -408,6 +408,12 @@ paths:
   /articles:
     get:
       summary: Список страниц
+      description: |
+        С помощью функций поиска можно получать страницы по slug полю определенной категории.
+        Список категорий:
+        1. Как это работает для android (kak-eto-rabotaet-dla-android)
+        2. Как это работает для ios (kak-eto-rabotaet-dla-ios)
+        Прмер запроса: &search[slug]=kak-eto-rabotaet-dla-android
       parameters:
         - name: page
           in: query
