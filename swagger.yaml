@@ -1312,7 +1312,7 @@ definitions:
         type: integer
         description: Уникальный ID
       subject:
-        type: integer
+        type: string
         description: Тема диалога. Может быть пустой
       partner:
         type: string
