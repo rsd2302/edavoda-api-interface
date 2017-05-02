@@ -1313,7 +1313,7 @@ definitions:
         description: Уникальный ID
       subject:
         type: integer
-        description: Дата создания
+        description: Тема диалога. Может быть пустой
       partner:
         type: string
         description: Имя собеседника
