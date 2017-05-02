@@ -357,6 +357,33 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
+  /product/{id}/change_image:
+    post:
+      consumes:
+        - multipart/form-data  # and/or application/x-www-form-urlencoded
+      summary: Изменение изображения товара
+      parameters:
+        - name: id
+          in: path
+          description: ID товара
+          required: true
+          type: integer
+          format: int64
+        - name: error_message
+          in: formData
+          type: file
+          description: Изображение
+          required: true
+      responses:
+        200:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
   /product/{id}/create_error_message:
     post:
       summary: Добавление информации об ошибке
