@@ -1311,18 +1311,13 @@ definitions:
       id:
         type: integer
         description: Уникальный ID
-      created_at:
+      subject:
         type: integer
         description: Дата создания
-      dialog_category_id:
-        type: integer
-        description: Категория диалога
-      name:
+      partner:
         type: string
         description: Имя собеседника
-      sub_name:
-        type: string
-        description: Компания собеседника
+
   Dialog_category:
     type: object
     properties:
