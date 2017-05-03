@@ -571,6 +571,16 @@ paths:
           description: Количество всех непрочитанных сообщений
           schema:
             type: integer
+  /dialogs/unread_messages:
+    get:
+      summary: Просмотр новых сообщений
+      responses:
+        200:
+          description: массив сообщений
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Message'
   /dialogs/{id}:
     get:
       summary: Просмотр сообщений в диалоге с ID
