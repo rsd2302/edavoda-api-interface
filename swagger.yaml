@@ -1075,6 +1075,33 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
+  /profile/change_password:
+    post:
+      summary: Смена пароля
+      parameters:
+        - name: password
+          in: body
+          description: ИНформация о профиле
+          required: true
+          schema:
+            type: object
+            properties:
+              old_password:
+                description: Старый пароль
+                type: string
+              new_password:
+                description: Новый пароль
+                type: string
+      responses:
+        200:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
   /shop_managers/{id}:
     get:
       summary: Список сотрудников для пользователя
