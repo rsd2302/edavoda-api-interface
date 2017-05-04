@@ -540,7 +540,7 @@ paths:
               $ref: '#/definitions/Dialog'
   /dialog/categories:
     get:
-      summary: Список категорий диалогов
+      summary: Список категорий диалогов (Не реализован)
       responses:
         200:
           description: Массив категорий диалогов
@@ -557,12 +557,12 @@ paths:
           description: ИНформация о сообщении
           required: true
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Necessary_product_message'
       responses:
         200:
           description: product response
           schema:
-            $ref: '#/definitions/Message'
+            $ref: '#/definitions/Necessary_product_message'
   /dialogs/unread_messages_count:
     get:
       summary: Количество всех непрочитанных сообщений
@@ -1367,6 +1367,12 @@ definitions:
       name:
         type: string
         description: Название категории
+  Necessary_product_message:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Текст сообщения
   Message:
     type: object
     properties:
@@ -1526,6 +1532,9 @@ definitions:
       brands:
         type: array
         description: Список состоящий из ID брендов, которе имеют товары поставщика
+      is_delivers_to_you:
+        type: boolean
+        description: Свойство показывает, доставляет ли поставщик товары по адресу текущего пользователя
   Order:
     type: object
     properties:
