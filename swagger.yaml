@@ -853,6 +853,26 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
+  /orders/calculate:
+    post:
+      summary: Просчет корзины продуктов
+      parameters:
+        - name: action
+          in: body
+          description: ИНформация о акции
+          required: true
+          schema:
+            $ref: '#/definitions/Order_for_calculate_in'
+      responses:
+        200:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
   /order/{id}/change_status:
     post:
       summary: Смена статуса заказа
@@ -1602,6 +1622,25 @@ definitions:
       date_of_delivery:
         type: string
         description: Дата поставки
+  Order_for_calculate_in:
+    type: object
+    description: Заказ для просчета
+    properties:
+      provisioner_id:
+        type: integer
+        description: ID поставщика, к которому относится заказ
+      products:
+        type: array
+        description: Продукты для просчета
+        items:
+          type: object
+          properties:
+            product_id:
+              type: string
+              description: ID продукта
+            count:
+              type: string
+              description: Количество
   Order_comment:
     type: object
     description: Комментарий к заказу
