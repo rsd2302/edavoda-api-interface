@@ -865,7 +865,9 @@ paths:
             $ref: '#/definitions/Order_for_calculate_in'
       responses:
         200:
-          description: Успешное сохранение
+          description: Результат просчета
+          schema:
+            $ref: '#/definitions/Order_for_calculate_out'
         422:
           description: |
             Ошибки в валидации
@@ -1624,7 +1626,7 @@ definitions:
         description: Дата поставки
   Order_for_calculate_in:
     type: object
-    description: Заказ для просчета
+    description: Объект для просчета
     properties:
       provisioner_id:
         type: integer
@@ -1641,6 +1643,34 @@ definitions:
             count:
               type: string
               description: Количество
+  Order_for_calculate_out:
+    type: object
+    description: Объект с просчитаными ценами
+    properties:
+      products:
+        type: array
+        description: Продукты для просчета
+        items:
+          type: object
+          properties:
+            product_id:
+              type: string
+              description: ID продукта
+            price:
+              type: string
+              description: Цена за еденицу товара
+            amount:
+              type: string
+              description: Общая цена
+            count:
+              type: string
+              description: Количество
+      delivery_price:
+        type: integer
+        description: Цена доставки
+      total:
+        type: integer
+        description: Общая цена
   Order_comment:
     type: object
     description: Комментарий к заказу
