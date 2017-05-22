@@ -822,10 +822,10 @@ paths:
           description: Способ оплаты
           type: integer
           required: true
-        - name: specialization_shop_id
+        - name: comment_shop
           in: formData
-          description: Точка магазина
-          type: integer
+          description: Комментарий к заказу
+          type: string
           required: true
         - name: products
           in: formData
