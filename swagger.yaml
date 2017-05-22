@@ -261,7 +261,7 @@ paths:
           default: 30
         - name: search
           in: query
-          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value)
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value). Также есть параметры min_update_time и max_update_time
           type: array
           items:
             type: array
