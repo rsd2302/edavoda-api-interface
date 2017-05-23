@@ -331,6 +331,38 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
+  /filters:
+    get:
+      summary: Все атрибуты товаров. Используются в том числе, для фильтров в категориях
+      parameters:
+        - name: page
+          in: query
+          description: № cтраницы
+          type: integer
+          format: int64
+          default: 1
+          required: true
+        - name: limit
+          in: query
+          description: Лимит
+          type: integer
+          format: int64
+          default: 30
+        - name: search
+          in: query
+          description: Поиск по параметрам (Пример запроса &search[name]=neededname&search[name]=other value). Также есть параметры min_update_time и max_update_time
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+      responses:
+        200:
+          description: Массив атрибутов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Filter_item'
   /product/{id}:
     post:
       summary: Редактирование продукта
@@ -1230,31 +1262,30 @@ definitions:
     type: object
     description: Атрибут товара
     properties:
-      id:
+      filter_id:
         type: integer
-        description: Уникальный ID
-      product_attribute_type_id:
-        type: string
         description: ID атрибута
-      product_id:
-        type: string
-        description: ID продукта
       value:
         type: string
         description: Значение атрибута
-  Product_attribute_type:
+  Filter_item:
     type: object
     description: Тип атрибута
     properties:
       id:
         type: integer
         description: Уникальный ID
-      title:
+      name:
         type: string
         description: Название
       unit:
         type: string
         description: Еденицы
+      value:
+        type: array
+        items:
+          type: string
+          description: Возможные значения
   Price_category:
     type: object
     properties:
