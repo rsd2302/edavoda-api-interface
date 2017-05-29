@@ -401,7 +401,7 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: error_message
+        - name: image
           in: formData
           type: file
           description: Изображение
