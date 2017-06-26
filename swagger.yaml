@@ -804,6 +804,32 @@ paths:
             {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
         401:
           description: Нет доступа на запись
+  /action/{id}/prolong:
+    post:
+      summary: Продление акции
+      parameters:
+        - name: id
+          in: path
+          description: ID акции
+          required: true
+          type: integer
+          format: int64
+        - name: action
+          in: body
+          description: ИНформация о времени акции
+          required: true
+          schema:
+            $ref: '#/definitions/Action_prolong'
+      responses:
+        200:
+          description: Успешное сохранение
+        422:
+          description: |
+            Ошибки в валидации
+            Сервер вернет следующую структуру:
+            {'errors': {'name':['Поле имя обязательно для заполнения','Поле некорректно'], email: ['Email некорректен']}
+        401:
+          description: Нет доступа на запись
   /orders:
     get:
       summary: Заказы
@@ -1528,6 +1554,12 @@ definitions:
         items:
           type: integer
           description: ID продукта
+  Action_prolong:
+    type: object
+    properties:
+      end_time:
+        type: string
+        description: Время конца в формате "2017-07-30 11:46:00"
   Specialization_shop:
     type: object
     properties:
