@@ -38,16 +38,10 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: username
-          in: formData
-          type: string
-          description: Email пользователя
-          required: true
-        - name: password
-          in: formData
-          type: string
-          description: Пароль
-          required: true
+        - name: данные пользователя
+          in: body
+          schema:
+            $ref: '#/definitions/LoginForm'
       responses:
         200:
           description: |
@@ -1238,6 +1232,18 @@ paths:
           description: Успешное удаление
 
 definitions:
+  LoginForm:
+    type: object
+    properties:
+      username:
+        type: string
+        description: Email пользователя
+      password:
+        type: string
+        description: Пароль
+      platform:
+        type: integer
+        description: Платформа. 1 - Android, 2 - iOS
   Product:
     type: object
     properties:
